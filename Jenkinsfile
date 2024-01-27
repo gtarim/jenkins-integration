@@ -1,22 +1,17 @@
 pipeline {
-    agent { 
-        node {
-            label 'docker-agent'
-        }
-    }
-    triggers {
-      pollSCM '*/5 * * * *'
+    agent {
+        docker { image 'python:alpine3.19' }
     }
     stages {
-        stage('Build') {
+        stage('build') {
             steps {
                 echo "Building.."
                 sh '''
-                echo "doing build stuff.."
+                python --version
                 '''
             }
         }
-        stage('Test') {
+        stage('test') {
             steps {
                 echo "Testing.."
                 sh '''
@@ -24,7 +19,7 @@ pipeline {
                 '''
             }
         }
-        stage('Deliver') {
+        stage('deliver') {
             steps {
                 echo 'Deliver....'
                 sh '''
